@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from "react"
 import './App.css';
+import Main from "./Components/Main";
 
 function App() {
+  const [obtainedData, setObtainedData] = useState()
+  const fetchData = async () => {
+    try {
+      const response = await fetch('https://promailer-backend.onrender.com/');
+      // const response = await fetch('http://localhost:3000/');
+      const data = await response.json();
+      console.log(data)
+      setObtainedData(data.title);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <h2>Sachin Kadian Heading Page</h2>
+        <p>{obtainedData}</p>
+        <Main/>
+        {/* {users.map((user) => (
+      <p key={user.id}>{user.name}</p>
+    ))} */}
     </div>
   );
 }
