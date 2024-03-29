@@ -1,33 +1,53 @@
-import React, { useEffect, useState } from "react"
-import './App.css';
+import React, { Fragment} from "react"
 import Main from "./Components/Main";
+import {BrowserRouter as Router, Route , Routes} from "react-router-dom" 
+import Navbar from "./Components/Navbar";
+import WebFont from "webfontloader"
+import "@fontsource/lexend"; // Defaults to weight 400
+import "@fontsource/lexend/400.css"; // Specify weight
 
 function App() {
-  const [obtainedData, setObtainedData] = useState()
-  const fetchData = async () => {
-    try {
-      const response = await fetch('https://promailer-backend.onrender.com/');
-      // const response = await fetch('http://localhost:3000/');
-      const data = await response.json();
-      console.log(data)
-      setObtainedData(data.title);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  React.useEffect(()=>{//it loads the fonts before the pages being loaded
+
+    WebFont.load({
+      google:{
+        families:["Roboto","Droid Sans","Chilanka"],
+        
+      }
+    })
+
+  },[]);
   return (
-    <div className="App">
-        <h2>Sachin Kadian Heading Page</h2>
-        <p>{obtainedData}</p>
-        <Main/>
-        {/* {users.map((user) => (
-      <p key={user.id}>{user.name}</p>
-    ))} */}
-    </div>
+    <Router>
+      <Navbar/>
+        <Fragment>
+        <Routes>
+            <Route exact path="/" element={<Main/>} />
+            {/* <Route exact path="/nav" element={<Navbar/>} /> */}
+        </Routes>
+        </Fragment>
+    </Router>
+    // <Router>
+    //   <div style={{ display: 'flex' }}>
+    //     {/* Left-side navigation panel with width 150px */}
+    //     <div style={{ width: '150px', backgroundColor: '#f0f0f0' }}>
+    //       <Navbar />
+    //     </div>
+        
+    //     {/* Main content area */}
+    //     <div style={{ flex: 1 }}>
+    //       <Routes>
+    //         {/* Routes for displaying different components */}
+    //         <Route exact path="/home" component={<Main/>} />
+    //         {/* <Route exact path="/component2" component={Component2} /> */}
+    //         {/* Add more routes for other components as needed */}
+    //       </Routes>
+    //     </div>
+    //   </div>
+    // </Router>
+    
   );
 }
 
